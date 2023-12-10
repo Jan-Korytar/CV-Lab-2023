@@ -9,6 +9,7 @@ import glob
 from tqdm import tqdm
 from natsort import os_sorted
 import os
+import shutil
 
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
 
@@ -50,7 +51,12 @@ counter = 0
 losses = []
 
 
+if os.path.exists('imgs'):
+        # Remove the existing directory
+        shutil.rmtree('imgs')
 
+    # Create a new directory with the same name
+os.makedirs('imgs')
 
 # Training loop
 for epoch in tqdm(range(num_epochs), desc='Epoch:'):
@@ -86,7 +92,7 @@ for epoch in tqdm(range(num_epochs), desc='Epoch:'):
             sample_output_image.save(f'imgs/epoch_{epoch + 1}_output.png')
             sample_output_image = F.to_pil_image(labels[0].cpu())
             sample_output_image.save(f'imgs/epoch_{epoch + 1}_gt.png')
-            sample_output_image = F.to_pil_image(inputs[0].cpu())
+            sample_output_image = F.to_pil_image(inputs[0, 0].cpu())
             sample_output_image.save(f'imgs/epoch_{epoch + 1}_input.png')
 
 

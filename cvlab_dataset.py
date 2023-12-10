@@ -13,8 +13,7 @@ class cvlab_dataset(Dataset):
         self.transform = transforms.Compose([
             transforms.Resize((size, size)),
             transforms.Grayscale(num_output_channels=1),
-            transforms.ToTensor(),
-            transforms.Normalize((0.5,), (0.5,),)
+            transforms.ToTensor()
         ])
         self.transform_gt = transforms.Compose([
             transforms.Resize((size, size)),
