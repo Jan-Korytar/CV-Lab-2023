@@ -24,7 +24,7 @@ for gt in gt_images.copy():
         gt_images.remove(gt)
 
 dataset = cvlab_dataset(train_images[:200], gt_images[:200])
-dataloader = DataLoader(dataset, batch_size=32)
+dataloader = DataLoader(dataset, batch_size=32, shuffle=True)
 
 model = UNet(3, 64, 1, 1).to(device)
 
@@ -33,7 +33,7 @@ criterion = nn.MSELoss()
 optimizer = optim.Adam(model.parameters(), lr=0.001)
 
 # Number of epochs and early stopping parameters
-num_epochs = 10
+num_epochs = 50
 patience = 10
 best_loss = float('inf')
 counter = 0
@@ -70,7 +70,10 @@ for epoch in tqdm(range(num_epochs), desc='Epoch:'):
         # Assuming sample_output is a single-channel image tensor, adjust as needed
         sample_output_image = F.to_pil_image(sample_output[0].cpu())
         sample_output_image.save(f'imgs/epoch_{epoch + 1}_output.png')
-
+        sample_output_image = F.to_pil_image(labels[0].cpu())
+        sample_output_image.save(f'imgs/epoch_{epoch + 1}_gt.png')
+        sample_output_image = F.to_pil_image(inputs[0].cpu())
+        sample_output_image.save(f'imgs/epoch_{epoch + 1}_input.png')
     '''# Early stopping check
     if validation_loss < best_loss:
         best_loss = validation_loss
