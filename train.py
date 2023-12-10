@@ -64,16 +64,17 @@ for epoch in tqdm(range(num_epochs), desc='Epoch:'):
     print(f"Epoch [{epoch + 1}/{num_epochs}] - Loss: {average_loss:.4f}")
 
     with torch.no_grad():
-        model.eval()
-        sample_output = model(inputs[:1])  # Assuming batch size is at least 1
+        if (epoch + 1) % 5 == 0 or epoch <= 10:
+            model.eval()
+            sample_output = model(inputs[:1])  # Assuming batch size is at least 1
 
-        # Assuming sample_output is a single-channel image tensor, adjust as needed
-        sample_output_image = F.to_pil_image(sample_output[0].cpu())
-        sample_output_image.save(f'imgs/epoch_{epoch + 1}_output.png')
-        sample_output_image = F.to_pil_image(labels[0].cpu())
-        sample_output_image.save(f'imgs/epoch_{epoch + 1}_gt.png')
-        sample_output_image = F.to_pil_image(inputs[0].cpu())
-        sample_output_image.save(f'imgs/epoch_{epoch + 1}_input.png')
+            # Assuming sample_output is a single-channel image tensor, adjust as needed
+            sample_output_image = F.to_pil_image(sample_output[0].cpu())
+            sample_output_image.save(f'imgs/epoch_{epoch + 1}_output.png')
+            sample_output_image = F.to_pil_image(labels[0].cpu())
+            sample_output_image.save(f'imgs/epoch_{epoch + 1}_gt.png')
+            sample_output_image = F.to_pil_image(inputs[0].cpu())
+            sample_output_image.save(f'imgs/epoch_{epoch + 1}_input.png')
 
 
     '''# Early stopping check
