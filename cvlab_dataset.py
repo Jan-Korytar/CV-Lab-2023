@@ -25,6 +25,6 @@ class cvlab_dataset(Dataset):
         return len(self.gt_images)
 
     def __getitem__(self, index):
-        image = torch.stack([self.transform(Image.open(self.train_images[i]) )for i in range(index, index+3)]).squeeze()
+        image = torch.stack([self.transform(Image.open(self.train_images[i]) )for i in range(index*3, index*3 + 3)]).squeeze()
         gt_image = self.transform_gt(Image.open(self.gt_images[index]))
         return image, gt_image
