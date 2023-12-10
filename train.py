@@ -7,26 +7,36 @@ from cvlab_dataset import cvlab_dataset
 from model import UNet
 import glob
 from tqdm import tqdm
-
+from natsort import os_sorted
 import os
 
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
 
 # Define your dataset class and DataLoader here (replace with your actual implementation)
-directory_to_img = 'C:\my files\cv_lab\Part1'
-train_images = sorted(glob.glob(f"{directory_to_img}/*_pose_5_thermal.png"))
-gt_images = sorted(glob.glob(f"{directory_to_img}/*_GT_pose_0_thermal.png"))
-for image in train_images.copy():
-    if image.replace('_pose_5_thermal.png', '_GT_pose_0_thermal.png') not in gt_images:
-        train_images.remove(image)
-for gt in gt_images.copy():
-    if gt.replace('_GT_pose_0_thermal.png', '_pose_5_thermal.png') not in train_images:
-        gt_images.remove(gt)
+directory_to_img_gt = r'C:\my files\cv_lab\Part1'
+directory_to_integral_img = r'C:\my files\cv_lab\integral_images'
 
-dataset = cvlab_dataset(train_images[:200], gt_images[:200])
+#beware os sorted, it can fuck up your sorted order, works in windows tho
+train_images = os_sorted(glob.glob(f"{directory_to_integral_img}/*.png"))
+gt_images = os_sorted(glob.glob(f"{directory_to_img_gt}/*_GT_pose_0_thermal.png"))
+gt_images = gt_images[:int(len(train_images)//3)]
+
+'''
+for image in train_images.copy():
+    img_base = image.split('-')[0]
+    'C:\\my files\\cv_lab\\integral_images\\0_0_integral_f-0.21.png'
+    if os.path.join(directory_to_img_gt, os.path.basename(img_base.replace('_integral_f', '_GT_pose_0_thermal.png'))) not in gt_images:
+        train_images.remove(image)
+
+for gt in gt_images.copy():
+    continue # hope and pray all of them have their own ground truth :)
+    #if gt.replace('_GT_pose_0_thermal.png', '_pose_5_thermal.png') not in train_images:
+    #    gt_images.remove(gt)
+'''
+dataset = cvlab_dataset(train_images[:], gt_images[:])
 dataloader = DataLoader(dataset, batch_size=32, shuffle=True)
 
-model = UNet(3, 64, 1, 1).to(device)
+model = UNet(3, 64, 3, 1).to(device)
 
 # Loss function and optimizer
 criterion = nn.MSELoss()
@@ -38,6 +48,9 @@ patience = 10
 best_loss = float('inf')
 counter = 0
 losses = []
+
+
+
 
 # Training loop
 for epoch in tqdm(range(num_epochs), desc='Epoch:'):
@@ -57,7 +70,7 @@ for epoch in tqdm(range(num_epochs), desc='Epoch:'):
         tq_bar.set_description(f'Running_loss: {loss.item()}', refresh=True)
 
     average_loss = running_loss / len(dataloader)
-
+    losses.append(average_loss)
     #TODO Validation
     # Perform validation and compute validation_loss here
 
