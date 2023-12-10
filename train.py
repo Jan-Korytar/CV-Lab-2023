@@ -74,6 +74,8 @@ for epoch in tqdm(range(num_epochs), desc='Epoch:'):
         sample_output_image.save(f'imgs/epoch_{epoch + 1}_gt.png')
         sample_output_image = F.to_pil_image(inputs[0].cpu())
         sample_output_image.save(f'imgs/epoch_{epoch + 1}_input.png')
+
+
     '''# Early stopping check
     if validation_loss < best_loss:
         best_loss = validation_loss
