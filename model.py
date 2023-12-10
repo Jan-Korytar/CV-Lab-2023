@@ -43,39 +43,57 @@ class decoder_block(nn.Module):
         return x
 
 
-class unet(torch.nn.Module):
+import torch.nn as nn
+
+class UNet(torch.nn.Module):
     def __init__(self, depth, base_dim, in_channels, out_channels):
-        super().__init__()
-        """ Encoder """
+        """
+        Initializes the UNet model.
+
+        Parameters:
+        - depth (int): Depth of the U-Net architecture.
+        - base_dim (int): Number of channels in the first encoder block.
+        - in_channels (int): Number of input channels.
+        - out_channels (int): Number of output channels.
+        """
+        super(UNet, self).__init__()
+
+        # Encoder
         self.depth = depth
         self.e1 = encoder_block(in_channels, base_dim)
         for i in range(2, depth + 1):
-            exec(f'self.e{i} = encoder_block(int(base_dim), int(base_dim * 2))')
+            setattr(self, f'e{i}', encoder_block(int(base_dim), int(base_dim * 2)))
             base_dim *= 2
 
-
-        """ Bottleneck """
-        self.b = conv_block(base_dim, base_dim *2)
+        # Bottleneck
+        self.b = conv_block(base_dim, base_dim * 2)
         base_dim *= 2
-        """ Decoder """
+
+        # Decoder
         for i in range(1, depth + 1):
-            exec(f'self.d{i} = decoder_block(int(base_dim), int(base_dim/2))')
+            setattr(self, f'd{i}', decoder_block(int(base_dim), int(base_dim / 2)))
             base_dim /= 2
-        """ Classifier """
+
+        # Classifier
         self.outputs = nn.Conv2d(int(base_dim), out_channels, kernel_size=1, padding=0)
 
     def forward(self, inputs):
-        """ Encoder """
-        s1, p1 = self.e1(inputs)
+        # Encoder
+        s = [None] * self.depth
+        p = [None] * self.depth
+        s[0], p[0] = self.e1(inputs)
         for i in range(2, self.depth + 1):
-            exec(f's{i}, p{i} = self.e{i}(p{i-1})')
+            e_block = getattr(self, f'e{i}')
+            s[i - 1], p[i - 1] = e_block(p[i - 2])
 
-        """ Bottleneck """
-        b = self.b(eval(f'p{i}'))
-        """ Decoder """
-        d1 = self.d1(b, eval(f's{i}'))
-        for i in range(2, self.depth + 1):
-            exec(f'd{i} = self.d{i}(d{i - 1}, s{self.depth + 1 - i})')
-        """ Classifier """
-        outputs = self.outputs(eval(f'd{i}'))
+        # Bottleneck
+        b = self.b(p[self.depth - 1])
+
+        # Decoder
+        for i in range(1, self.depth + 1):
+            d_block = getattr(self, f'd{i}')
+            b = d_block(b, s[self.depth - i])
+
+        # Classifier
+        outputs = self.outputs(b)
         return outputs

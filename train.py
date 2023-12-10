@@ -3,7 +3,7 @@ import torch.nn as nn
 import torch.optim as optim
 from torch.utils.data import DataLoader
 from cvlab_dataset import cvlab_dataset
-from model import unet
+from model import UNet
 import glob
 from tqdm import tqdm
 import os
@@ -24,7 +24,7 @@ for gt in gt_images.copy():
 dataset = cvlab_dataset(train_images[:800], gt_images[:800], None)
 dataloader = DataLoader(dataset, batch_size=8)
 
-model = unet(3, 16, 1, 1).to(device)
+model = UNet(3, 16, 1, 1).to(device)
 
 # Loss function and optimizer
 criterion = nn.MSELoss()
@@ -52,6 +52,7 @@ for epoch in (range(num_epochs)):
         optimizer.step()
 
         running_loss += loss.item()
+
 
     average_loss = running_loss / len(dataloader)
 
