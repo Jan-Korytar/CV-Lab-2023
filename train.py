@@ -1,11 +1,13 @@
 import torch
 import torch.nn as nn
 import torch.optim as optim
+import torchvision.transforms.functional as F
 from torch.utils.data import DataLoader
 from cvlab_dataset import cvlab_dataset
 from model import UNet
 import glob
 from tqdm import tqdm
+
 import os
 
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
@@ -21,10 +23,10 @@ for gt in gt_images.copy():
     if gt.replace('_GT_pose_0_thermal.png', '_pose_5_thermal.png') not in train_images:
         gt_images.remove(gt)
 
-dataset = cvlab_dataset(train_images[:800], gt_images[:800], None)
-dataloader = DataLoader(dataset, batch_size=8)
+dataset = cvlab_dataset(train_images[:200], gt_images[:200])
+dataloader = DataLoader(dataset, batch_size=32)
 
-model = UNet(3, 16, 1, 1).to(device)
+model = UNet(3, 64, 1, 1).to(device)
 
 # Loss function and optimizer
 criterion = nn.MSELoss()
@@ -38,11 +40,11 @@ counter = 0
 losses = []
 
 # Training loop
-for epoch in (range(num_epochs)):
+for epoch in tqdm(range(num_epochs), desc='Epoch:'):
     model.train()
     running_loss = 0.0
 
-    for inputs, labels in tqdm(dataloader):
+    for inputs, labels in (tq_bar := tqdm(dataloader, desc='running_loss')):
         inputs = inputs.to(device)
         labels = labels.to(device)
         optimizer.zero_grad()
@@ -52,7 +54,7 @@ for epoch in (range(num_epochs)):
         optimizer.step()
 
         running_loss += loss.item()
-
+        tq_bar.set_description(f'Running_loss: {loss.item()}', refresh=True)
 
     average_loss = running_loss / len(dataloader)
 
@@ -60,6 +62,14 @@ for epoch in (range(num_epochs)):
     # Perform validation and compute validation_loss here
 
     print(f"Epoch [{epoch + 1}/{num_epochs}] - Loss: {average_loss:.4f}")
+
+    with torch.no_grad():
+        model.eval()
+        sample_output = model(inputs[:1])  # Assuming batch size is at least 1
+
+        # Assuming sample_output is a single-channel image tensor, adjust as needed
+        sample_output_image = F.to_pil_image(sample_output[0].cpu())
+        sample_output_image.save(f'imgs/epoch_{epoch + 1}_output.png')
 
     '''# Early stopping check
     if validation_loss < best_loss:
