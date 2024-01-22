@@ -25,6 +25,7 @@ def run_test_script():
         '--dataroot', 'temp_test',
         '--name', 'weights',
         '--checkpoints_dir', './',
+        '--results_dir', 'test_results',
         '--model', 'test',
         '--direction', 'BtoA',
         '--dataset_mode', 'single',
