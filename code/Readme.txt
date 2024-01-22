@@ -40,6 +40,8 @@ Base folder contents:
     - usage: python test.py [focal_0.1_image_path] [focal_0.8_image_path] [focal_1.6_image_path]
 - evaluate.py                       runs our pretrained model on test set, generates test set restored images, and calculates average SSIM score on all of them
 - pytorch-CycleGAN-and-pix2pix/     a clone of our fork https://github.com/kristofmaar/pytorch-CycleGAN-and-pix2pix/ please note that most of this were not authored by us, it's just required to run our code! see contributions on Github. 
+- train_set_preprocessor.py         prepare train set for testing
+- train_set_evaluate.py             we used this code to evaluate SSIM on train set
 
 Generated folders:
 - checkpoints/                      includes model that was trained by train.py
@@ -57,3 +59,4 @@ Generated folders:
         - [input image]_fake.png    output of the model (restored image)
         - [input image]_real.png    input of the model
     - index.html                    openable to show test results
+- train_test/                       includes preprocessed images for train set testing
