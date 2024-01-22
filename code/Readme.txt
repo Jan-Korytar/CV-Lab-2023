@@ -3,14 +3,22 @@ Environment settings:
 - Activation: conda activate cvlab_pix2pix
 
 Dataset:
-- integrals_groundtruths.7z         includes training dataset
+- integrals_groundtruths.7z         includes training dataset and test ground truth images
     - download link (11.35 GB): https://mega.nz/file/fpg2TbiL#f-59mVjWQYvMUagsJCqrBrfB7tbBZwpBsZLfjxSW7mQ
-    - extract into this folder (/code)
+    - extract into the code folder
+    - integrals/                    our integral images
+    - groundtruths/                 provided ground truth images
+
+Test set:
+- test_set.7z                       includes test set (5500 images from Part1 of batch_20230919)
+    - download link:
+    - extract into the code folder
+    - includes horizontally combined images that our model can accept and have never seen
 
 Trained model weights:
 - weights/                          includes our best model checkpoints
     - download link (202.6 MB): https://mega.nz/file/i5ZQnSpZ#nGKaKbboz4B0kRqC8CKohcW43GEyg-2xqTBxx3ixnv4
-    - extract into this folder (/code)
+    - extract into the code folder
     - latest_250_G.pth              generator model checkpoint at epoch 250
     - latest_250_D.pth              discriminator model checkpoint at epoch 250
 
