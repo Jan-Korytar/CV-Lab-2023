@@ -40,6 +40,11 @@ def run_test_script():
 
     subprocess.run(command)
 
+def upscale_image(image_path, size=(512, 512)):
+    with Image.open(image_path) as img:
+        resized_img = img.resize(size, Image.LANCZOS)
+        resized_img.save(image_path)
+
 def main():
     import sys
     if len(sys.argv) != 4:
@@ -52,6 +57,8 @@ def main():
 
     concatenate_and_save_images(image_path_01, image_path_08, image_path_16, 'temp_test')
     run_test_script()
+    image_path = 'test_results/weights/test_250/images/combined_image_fake.png'
+    upscale_image(image_path)
 
 if __name__ == "__main__":
     main()
