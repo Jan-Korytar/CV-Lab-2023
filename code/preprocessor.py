@@ -33,29 +33,24 @@ def prepare_integrals(source_folder='integrals', base_output_folder='dataset_pix
                 new_filename = f"{number}.png"
                 shutil.copy(os.path.join(source_folder, filename), os.path.join(destination_folder, new_filename))
 
-def split_files(src_folder='dataset_pix2pix', train_size=8800):
-    subfolders = ['groundtruth', 'input/B', 'input/C', 'input/D']
-    for subfolder in subfolders:
-        full_src_folder = os.path.join(src_folder, subfolder)
-        train_folder = full_src_folder + '/train'
-        val_folder = full_src_folder + '/val'
+def split_files(src_folder, train_size=8800):
+    train_folder = src_folder + '/train'
+    val_folder = src_folder + '/val'
+    if not os.path.exists(src_folder):
+        print(f"Source folder {src_folder} not found.")
+        return
+    
+    os.makedirs(train_folder, exist_ok=True)
+    os.makedirs(val_folder, exist_ok=True)
+    files = [f for f in os.listdir(src_folder) if os.path.isfile(os.path.join(src_folder, f))]
 
-        if not os.path.exists(full_src_folder):
-            print(f"Source folder {full_src_folder} not found. Skipping split for {subfolder}.")
-            continue
+    for file in files[:train_size]:
+        shutil.copy(os.path.join(src_folder, file), train_folder)
 
-        os.makedirs(train_folder, exist_ok=True)
-        os.makedirs(val_folder, exist_ok=True)
+    for file in files[train_size:]:
+        shutil.copy(os.path.join(src_folder, file), val_folder)
 
-        files = [f for f in os.listdir(full_src_folder) if os.path.isfile(os.path.join(full_src_folder, f))]
-
-        for file in files[:train_size]:
-            shutil.copy(os.path.join(full_src_folder, file), train_folder)
-
-        for file in files[train_size:]:
-            shutil.copy(os.path.join(full_src_folder, file), val_folder)
-
-        print(f"Files in {subfolder} copied successfully.")
+    print(f"Files copied in: {src_folder}")
 
 def delete_files_in_directory(directory):
     for item in os.listdir(directory):
@@ -80,13 +75,16 @@ def run_combine():
 
 prepare_groundtruths()
 prepare_integrals()
-split_files()
+
 directories = [
     "dataset_pix2pix/groundtruth",
     "dataset_pix2pix/input/B",
     "dataset_pix2pix/input/C",
     "dataset_pix2pix/input/D"
 ]
+
 for directory in directories:
+    split_files(directory)
     delete_files_in_directory(directory)
+
 run_combine()
