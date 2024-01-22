@@ -23,6 +23,7 @@ Trained model weights:
     - latest_250_D.pth              discriminator model checkpoint at epoch 250
 
 Core folder contents:
+- environment.yml                   conda environment required to run project
 - integrator.py                     integrates simulated dataset to our focal length
 - preprocessor.py                   preprocesses integrated and ground truth images for pix2pix accceptable format
 - train.py                          runs the training and saves results in checkpoints folder
