@@ -83,8 +83,9 @@ prepare_integrals()
 split_files()
 directories = [
     "dataset_pix2pix/groundtruth",
-    "dataset_pix2pix/input/A",
-    "dataset_pix2pix/input/B"
+    "dataset_pix2pix/input/B",
+    "dataset_pix2pix/input/C",
+    "dataset_pix2pix/input/D"
 ]
 for directory in directories:
     delete_files_in_directory(directory)
