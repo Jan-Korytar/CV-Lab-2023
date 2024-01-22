@@ -1,6 +1,8 @@
 name: cvlab_pix2pix
 channels:
   - defaults
+  - conda-forge
+  - pytorch
 dependencies:
   - python=3.8
   - pytorch=1.8.1
