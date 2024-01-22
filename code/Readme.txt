@@ -2,15 +2,24 @@ Environment settings:
 - Create conda environment: conda env create -f environment.yml
 - Activation: conda activate cvlab_pix2pix
 
+Dataset:
+- integrals_groundtruths.7z         includes training and test sets
+    - download link (11.35 GB): https://mega.nz/file/fpg2TbiL#f-59mVjWQYvMUagsJCqrBrfB7tbBZwpBsZLfjxSW7mQ
+    - extract into this folder (/code)
+
+Trained model weights:
+- weights/                          includes our best model checkpoints
+    - download link (202.6 MB): https://mega.nz/file/i5ZQnSpZ#nGKaKbboz4B0kRqC8CKohcW43GEyg-2xqTBxx3ixnv4
+    - extract into this folder (/code)
+    - latest_250_G.pth              generator model checkpoint at epoch 250
+    - latest_250_D.pth              discriminator model checkpoint at epoch 250
+
 Core folder contents:
 - integrator.py                     integrates simulated dataset to our focal length
 - preprocessor.py                   preprocesses integrated and ground truth images for pix2pix accceptable format
 - train.py                          runs the training and saves results in checkpoints folder
 - test.py                           runs our pretrained model on three integrals with focal stack [-0.1, -0.8, -1.6] and saves results in "test_results" folder, see generated folders info below
 - pytorch-CycleGAN-and-pix2pix/     a clone of our fork https://github.com/kristofmaar/pytorch-CycleGAN-and-pix2pix/
-- weights/                          includes our best model checkpoints
-    - latest_250_G.pth              generator model checkpoint at epoch 250
-    - latest_250_D.pth              discriminator model checkpoint at epoch 250
 
 Generated folders:
 - checkpoints/                      includes model that was trained by train.py
