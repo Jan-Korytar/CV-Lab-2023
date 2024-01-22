@@ -2,44 +2,10 @@ name: cvlab_pix2pix
 channels:
   - defaults
 dependencies:
-  - _libgcc_mutex=0.1
-  - _openmp_mutex=5.1
-  - asttokens=2.0.5
-  - backcall=0.2.0
-  - ca-certificates=2023.12.12
-  - decorator=5.1.1
-  - executing=0.8.3
-  - ipython=8.12.2
-  - jedi=0.18.1
-  - ld_impl_linux-64=2.38
-  - libffi=3.4.4
-  - libgcc-ng=11.2.0
-  - libgomp=11.2.0
-  - libstdcxx-ng=11.2.0
-  - matplotlib-inline=0.1.6
-  - ncurses=6.4
-  - openssl=3.0.12
-  - parso=0.8.3
-  - pexpect=4.8.0
-  - pickleshare=0.7.5
-  - pip=23.3.1
-  - prompt-toolkit=3.0.43
-  - ptyprocess=0.7.0
-  - pure_eval=0.2.2
-  - pygments=2.15.1
-  - python=3.8.18
-  - readline=8.2
-  - setuptools=68.2.2
-  - six=1.16.0
-  - sqlite=3.41.2
-  - stack_data=0.2.0
-  - tk=8.6.12
-  - traitlets=5.7.1
-  - typing_extensions=4.7.1
-  - wcwidth=0.2.5
-  - wheel=0.41.2
-  - xz=5.4.5
-  - zlib=1.2.13
+  - python=3.8
+  - pytorch=1.8.1
+  - scipy
+  - pip
   - pip:
       - appdirs==1.4.4
       - certifi==2023.11.17
