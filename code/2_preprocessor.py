@@ -1,5 +1,6 @@
 import os
 import shutil
+import subprocess
 
 def prepare_groundtruths(source_folder='groundtruths', output_folder='dataset_pix2pix/groundtruth'):
     if not os.path.exists(output_folder):
@@ -56,6 +57,19 @@ def split_files(src_folder='dataset_pix2pix', train_size=8800):
 
         print(f"Files in {subfolder} copied successfully.")
 
+def run_combine():
+    command = [
+        'python', 'pytorch-CycleGAN-and-pix2pix/datasets/combine_A_and_B_and_C_and_D.py',
+        '--fold_A', 'dataset_pix2pix/groundtruth',
+        '--fold_B', 'dataset_pix2pix/input/B',
+        '--fold_C', 'dataset_pix2pix/input/C',
+        '--fold_D', 'dataset_pix2pix/input/D',
+        '--fold_ABCD', 'dataset_pix2pix/combined'
+    ]
+
+    subprocess.run(command)
+
 prepare_groundtruths()
 prepare_integrals()
 split_files()
+run_combine()
