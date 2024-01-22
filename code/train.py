@@ -7,7 +7,6 @@ command = [
     '--model', 'pix2pix',
     '--direction', 'BtoA',
     '--input_nc', '9',
-    '--gpu_ids', '0',
     '--display_ncols', '-1',
     '--batch_size', '8',
     '--lr', '0.00010',
