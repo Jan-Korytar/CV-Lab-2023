@@ -31,7 +31,7 @@ def prepare_integrals(source_folder='integrals', base_output_folder='dataset_pix
             if focal_length in folders:
                 destination_folder = os.path.join(base_output_folder, folders[focal_length])
                 new_filename = f"{number}.png"
-                shutil.move(os.path.join(source_folder, filename), os.path.join(destination_folder, new_filename))
+                shutil.copy(os.path.join(source_folder, filename), os.path.join(destination_folder, new_filename))
 
 def split_files(src_folder='dataset_pix2pix', train_size=8800):
     subfolders = ['groundtruth', 'input/B', 'input/C', 'input/D']
