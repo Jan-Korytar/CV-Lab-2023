@@ -5,3 +5,4 @@ code/integrals/
 code/groundtruths/
 code/dataset_pix2pix/
 pytorch-CycleGAN-and-pix2pix/
+test/
