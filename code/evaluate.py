@@ -38,7 +38,7 @@ def calculate_ssim(image1, image2):
 
 def calculate_average_ssim():
     # find all model output images
-    model_images = glob.glob('results/thermal_combined_pix2pix/test_250/images/*_fake.png')
+    model_images = glob.glob('result/weights/test_250/images/*_fake.png')
 
     # find all ground truth images
     ground_truth_images = glob.glob('groundtruths/*1_*_GT_pose_0_thermal.png')
