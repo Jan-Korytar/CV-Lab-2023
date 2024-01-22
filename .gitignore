@@ -3,6 +3,8 @@
 */full_model.pth
 code/integrals/
 code/groundtruths/
+code/result
+code/checkpoints
 code/dataset_pix2pix/
 pytorch-CycleGAN-and-pix2pix/
 test/
