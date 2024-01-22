@@ -32,26 +32,29 @@ def prepare_integrals(source_folder='integrals', base_output_folder='dataset_pix
                 new_filename = f"{number}.png"
                 shutil.move(os.path.join(source_folder, filename), os.path.join(destination_folder, new_filename))
 
-def split_files(src_folder='dataset_pix2pix/groundtruth', train_size=8800):
-    train_folder = src_folder + '/train'
-    val_folder = src_folder + '/val'
+def split_files(src_folder='dataset_pix2pix', train_size=8800):
+    subfolders = ['groundtruth', 'input/B', 'input/C', 'input/D']
+    for subfolder in subfolders:
+        full_src_folder = os.path.join(src_folder, subfolder)
+        train_folder = full_src_folder + '/train'
+        val_folder = full_src_folder + '/val'
 
-    if not os.path.exists(src_folder):
-        print(f"Source folder {src_folder} not found.")
-        return
-    
-    os.makedirs(train_folder, exist_ok=True)
-    os.makedirs(val_folder, exist_ok=True)
+        if not os.path.exists(full_src_folder):
+            print(f"Source folder {full_src_folder} not found. Skipping split for {subfolder}.")
+            continue
 
-    files = [f for f in os.listdir(src_folder) if os.path.isfile(os.path.join(src_folder, f))]
+        os.makedirs(train_folder, exist_ok=True)
+        os.makedirs(val_folder, exist_ok=True)
 
-    for file in files[:train_size]:
-        shutil.copy(os.path.join(src_folder, file), train_folder)
+        files = [f for f in os.listdir(full_src_folder) if os.path.isfile(os.path.join(full_src_folder, f))]
 
-    for file in files[train_size:]:
-        shutil.copy(os.path.join(src_folder, file), val_folder)
+        for file in files[:train_size]:
+            shutil.copy(os.path.join(full_src_folder, file), train_folder)
 
-    print("Files copied successfully.")
+        for file in files[train_size:]:
+            shutil.copy(os.path.join(full_src_folder, file), val_folder)
+
+        print(f"Files in {subfolder} copied successfully.")
 
 prepare_groundtruths()
 prepare_integrals()
