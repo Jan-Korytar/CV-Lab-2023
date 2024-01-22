@@ -3,7 +3,7 @@ Environment settings:
 - Activation: conda activate cvlab_pix2pix
 
 Dataset:
-- integrals_groundtruths.7z         includes training and test sets
+- integrals_groundtruths.7z         includes training dataset
     - download link (11.35 GB): https://mega.nz/file/fpg2TbiL#f-59mVjWQYvMUagsJCqrBrfB7tbBZwpBsZLfjxSW7mQ
     - extract into this folder (/code)
 
