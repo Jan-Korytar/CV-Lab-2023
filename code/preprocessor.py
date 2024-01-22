@@ -57,6 +57,15 @@ def split_files(src_folder='dataset_pix2pix', train_size=8800):
 
         print(f"Files in {subfolder} copied successfully.")
 
+def delete_files_in_directory(directory):
+    for item in os.listdir(directory):
+        item_path = os.path.join(directory, item)
+
+        if os.path.isfile(item_path):
+            os.remove(item_path)
+        else:
+            print(f"Skipped directory: {item_path}")
+
 def run_combine():
     command = [
         'python', 'pytorch-CycleGAN-and-pix2pix/datasets/combine_A_and_B_and_C_and_D.py',
@@ -72,4 +81,11 @@ def run_combine():
 prepare_groundtruths()
 prepare_integrals()
 split_files()
+directories = [
+    "dataset_pix2pix/groundtruth",
+    "dataset_pix2pix/input/A",
+    "dataset_pix2pix/input/B"
+]
+for directory in directories:
+    delete_files_in_directory(directory)
 run_combine()
