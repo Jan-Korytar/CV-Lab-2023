@@ -9,7 +9,7 @@ import numpy as np
 def run_eval_script():
     command = [
         'python', 'pytorch-CycleGAN-and-pix2pix/test.py',
-        '--dataroot', 'temp_test',
+        '--dataroot', 'test',
         '--name', 'weights',
         '--checkpoints_dir', './',
         '--results_dir', 'result',
