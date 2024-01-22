@@ -5,6 +5,8 @@ code/integrals/
 code/groundtruths/
 code/result
 code/checkpoints
+code/train_test
+code/test_results
 code/dataset_pix2pix/
 pytorch-CycleGAN-and-pix2pix/
 test/
