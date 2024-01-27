@@ -14,8 +14,8 @@ Environment settings:
 Dataset:
 - integrals_groundtruths.7z         includes training dataset and test ground truth images
     - download link (11.35 GB): https://mega.nz/file/fpg2TbiL#f-59mVjWQYvMUagsJCqrBrfB7tbBZwpBsZLfjxSW7mQ
-    - integrals/                our integral images for training
-    - groundtruths/             provided ground truth images
+    - integrals/                    our integral images for training
+    - groundtruths/                 provided ground truth images
 
 Test set:
 - test_set.7z                       includes test set (5500 images from Part1 of batch_20230919) that our model can accept and have never seen
