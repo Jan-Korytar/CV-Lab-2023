@@ -1,10 +1,12 @@
 name: cvlab_pix2pix
 channels:
+  - conda-forge
+  - nvidia
   - pytorch
-  - defaults
 dependencies:
+  - nvidia::cudatoolkit=11.1
   - python=3.8
-  - pytorch=1.8.1
+  - pytorch::pytorch=1.8.1
   - scipy
   - pip
   - pip:    
@@ -47,3 +49,4 @@ dependencies:
       - visdom==0.2.4
       - wandb==0.16.1
       - websocket-client==1.7.0
+      - scikit-image==0.21.0
